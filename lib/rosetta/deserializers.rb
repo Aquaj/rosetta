@@ -4,8 +4,8 @@ class Rosetta
   class Deserializers
     @registered = {}
 
-    def self.all
-      @registered
+    def self.[](key)
+      @registered[key]
     end
 
     def self.register(name, deserializer)

@@ -19,14 +19,14 @@ class Rosetta
       def find_serializer(name_or_object)
         is_name = name_or_object.is_a?(String) || name_or_object.is_a?(Symbol)
         object = name_or_object unless is_name
-        Serializers.all[name_or_object] || object ||
+        Serializers[name_or_object] || object ||
           raise(UnknownSerializer, "Unknown serializer for: #{name_or_object.inspect}")
       end
 
       def find_deserializer(name_or_object)
         is_name = name_or_object.is_a?(String) || name_or_object.is_a?(Symbol)
         object = name_or_object unless is_name
-        Deserializers.all[name_or_object] || object ||
+        Deserializers[name_or_object] || object ||
           raise(UnknownSerializer, "Unknown serializer for: #{name_or_object.inspect}")
       end
   end

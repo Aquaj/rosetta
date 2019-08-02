@@ -7,11 +7,10 @@ class Rosetta
   class << self
     def convert(json)
       head, input = valid_input_from!(json)
-      content = -> (hash, key) { key.split(".").reduce(hash) { |c, k| c[k] } }
       CSV.generate do |csv|
         csv << head
         input.each do |obj|
-          csv << head.map { |h| c = content.(obj, h); c.is_a?(Array) ? c.join(?,) : c }
+          csv << head.map { |h| c = content(obj, h); c.is_a?(Array) ? c.join(?,) : c }
         end
       end
     end
@@ -46,6 +45,11 @@ class Rosetta
             key
           end
         end
+      end
+
+      # Similar to #dig method
+      def content(object, key)
+        key.split(".").reduce(object) { |hash, step| hash[step] if hash }
       end
 
       #HACK: Feels dirty but there's no JSON soft-parsing in ruby's json lib

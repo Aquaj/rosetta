@@ -98,3 +98,9 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def file_fixture(name)
+  path = Pathname.new("spec/fixtures/files/#{name}")
+  raise ArgumentError, "Could not find fixture file: #{path}" unless File.exists?(path)
+  path
+end

@@ -4,29 +4,23 @@ class Rosetta
       new(elements).serialize
     end
 
+    attr_reader :elements
+
     def initialize(elements)
-      @elements = elements
+      @elements = elements.dup.freeze
     end
 
     def serialize
       CSV.generate do |csv|
         csv << headers
-        @elements.each do |element|
-          csv << headers.map do |header|
-            value = element[header]
-            case value
-            when Array
-              value.join(',')
-            else
-              value
-            end
-          end
+        elements.each do |element|
+          csv << headers.map { |header| serialize_value(element[header]) }
         end
       end
     end
 
     def headers
-      heads, *others = @elements.map(&:headers).uniq
+      heads, *others = elements.map(&:headers).uniq
 
       raise ConversionError, <<-ERROR.strip unless others.none?
         All objects need to share their structure to be serialized to CSV.
@@ -34,5 +28,16 @@ class Rosetta
 
       heads
     end
+
+    private
+
+      def serialize_value(value)
+        case value
+        when Array
+          value.join(',')
+        else
+          value
+        end
+      end
   end
 end

@@ -6,11 +6,20 @@ class Rosetta
 
   class << self
     def convert(json)
-      head, input = valid_input_from!(json)
+      headers, objects = valid_input_from!(json)
+
       CSV.generate do |csv|
-        csv << head
-        input.each do |obj|
-          csv << head.map { |h| c = content(obj, h); c.is_a?(Array) ? c.join(?,) : c }
+        csv << headers
+        objects.each do |object|
+          csv << headers.map do |header|
+            value = content(object, header)
+            case value
+            when Array
+              value.join(',')
+            else
+              value
+            end
+          end
         end
       end
     end

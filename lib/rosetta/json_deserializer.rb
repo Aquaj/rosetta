@@ -2,9 +2,12 @@ require 'json'
 
 require 'rosetta/element'
 require 'rosetta/exceptions'
+require 'rosetta/deserializers'
 
 class Rosetta
   class JSONDeserializer
+    Deserializers.register :json, self
+
     def self.deserialize(input)
       new(input).deserialize
     end

@@ -9,6 +9,8 @@ class Rosetta
     def convert(json)
       raise ConversionError, "JSON input is invalid" unless j = valid_json(json)
       j = JSON(json)
+      raise ConversionError, "JSON input must be an array" unless j.is_a? Array
+      raise ConversionError, "JSON input must contain objects" unless j.all? { |o| o.is_a? Hash }
       headers = -> (hash) { hash.flat_map { |key, val| val.is_a?(Hash) ? headers.(val).map{|head| [key, head].join(?.) } : key } }
       content = -> (hash, key) { key.split(".").reduce(hash) { |c, k| c[k] } }
       head, *others = j.map(&headers).uniq

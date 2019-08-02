@@ -1,6 +1,8 @@
 require 'json'
 require 'csv'
 
+require 'rosetta/element'
+
 class Rosetta
   class ConversionError < ArgumentError; end
 
@@ -12,7 +14,7 @@ class Rosetta
         csv << headers
         objects.each do |object|
           csv << headers.map do |header|
-            value = content(object, header)
+            value = object[header]
             case value
             when Array
               value.join(',')
@@ -37,28 +39,14 @@ class Rosetta
           JSON input must contain objects
         ERROR
 
-        schema, *others = input.map { |obj| headers(obj) }.uniq
+        inputs = input.map { |e| Element.new(e) }
+
+        schema, *others = inputs.map(&:headers).uniq
         raise ConversionError, <<-ERROR.strip unless others.none?
           All objects in JSON array do not share the same structure
         ERROR
 
-        [schema, input]
-      end
-
-      def headers(object)
-        object.flat_map do |key, val|
-          case val
-          when Hash
-            headers(val).map{ |header| [key, header].join('.') }
-          else
-            key
-          end
-        end
-      end
-
-      # Similar to #dig method
-      def content(object, key)
-        key.split(".").reduce(object) { |hash, step| hash[step] if hash }
+        [schema, input.map { |e| Element.new(e) }]
       end
 
       #HACK: Feels dirty but there's no JSON soft-parsing in ruby's json lib

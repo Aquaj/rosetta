@@ -2,7 +2,7 @@ require 'json'
 require 'csv'
 
 require 'rosetta/element'
-require 'rosetta/json_serializer'
+require 'rosetta/json_deserializer'
 require 'rosetta/csv_serializer'
 
 class Rosetta
@@ -10,7 +10,7 @@ class Rosetta
 
   class << self
     def convert(json)
-      elements = JSONSerializer.deserialize(json)
+      elements = JSONDeserializer.deserialize(json)
       CSVSerializer.serialize(elements)
     end
   end

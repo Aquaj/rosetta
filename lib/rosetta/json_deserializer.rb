@@ -1,5 +1,5 @@
 class Rosetta
-  class JSONSerializer
+  class JSONDeserializer
     def self.deserialize(input)
       new(input).deserialize
     end

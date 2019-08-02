@@ -12,4 +12,14 @@ RSpec.describe Rosetta, '#convert' do
     input = input[0..-10] # Incomplete file
     expect { Rosetta.convert(input) }.to raise_error(ArgumentError)
   end
+
+  it "raises if all objects in the JSON array don't share the same structure" do
+    input = <<-JSON
+      [
+        { "a": 1 },
+        { "b": 1 }
+      ]
+    JSON
+    expect { Rosetta.convert(input) }.to raise_error(Rosetta::ConversionError)
+  end
 end

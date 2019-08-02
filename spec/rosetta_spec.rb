@@ -6,4 +6,10 @@ RSpec.describe Rosetta, '#convert' do
     output = File.read(file_fixture('users.csv'))
     expect(Rosetta.convert(input)).to eq(output)
   end
+
+  it 'raises if passed invalid JSON as an input' do
+    input = File.read(file_fixture('users.json'))
+    input = input[0..-10] # Incomplete file
+    expect { Rosetta.convert(input) }.to raise_error(ArgumentError)
+  end
 end

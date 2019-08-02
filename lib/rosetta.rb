@@ -1,12 +1,9 @@
-require 'rosetta/json_deserializer'
-require 'rosetta/csv_serializer'
+require 'rosetta/translation'
 
 class Rosetta
-
   class << self
-    def convert(input)
-      elements = JSONDeserializer.deserialize(input)
-      CSVSerializer.serialize(elements)
+    def convert(input, from: :csv, to: :json)
+      Translation.new(from, to).call(input)
     end
   end
 end

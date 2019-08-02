@@ -12,6 +12,7 @@ class Rosetta
 
     def initialize(elements)
       @elements = elements.dup.freeze
+      validate_input!
     end
 
     def serialize
@@ -24,13 +25,16 @@ class Rosetta
     end
 
     def headers
-      heads, *others = elements.map(&:properties).uniq
+      head, *_ = elements.map(&:properties).uniq
+      head
+    end
+
+    def validate_input!
+      _, *others = elements.map(&:properties).uniq
 
       raise SerializationError, <<-ERROR.strip unless others.none?
         All objects need to share their structure to be serialized to CSV.
       ERROR
-
-      heads
     end
 
     private

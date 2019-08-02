@@ -19,4 +19,30 @@ RSpec.describe Rosetta::Translation do
     translation = Rosetta::Translation.new(:csv, :json)
     expect(translation.call(input)).to eq(output)
   end
+
+  it 'can take callable objects as translation objects' do
+    lambda_deserializer = lambda do |input|
+      input.split("\n").map do |line|
+        attributes = line.split(";").map { |i| i.split(',') }.to_h
+        Rosetta::Element.new(attributes)
+      end
+    end
+
+    proc_serializer = proc do |elements|
+      elements.map do |element|
+        element.properties.map do |prop|
+          element[prop]
+        end.join('-')
+      end.join("\n")
+    end
+
+    translation = Rosetta::Translation.new(proc_serializer, lambda_deserializer)
+    expect(translation.call(<<~INPUT.chomp)).to eq(<<~OUTPUT.chomp)
+    a,b;c,d;
+    1,2;3,4;
+    INPUT
+    b-d
+    2-4
+    OUTPUT
+  end
 end

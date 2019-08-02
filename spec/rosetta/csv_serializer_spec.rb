@@ -16,6 +16,18 @@ RSpec.describe Rosetta::CSVSerializer do
     CSV
   end
 
+  it 'serializes array values as comma-separated values in a string' do
+    elements = [
+      Rosetta::Element.new('a' => [:a, :b]),
+    ]
+
+    serialized = Rosetta::CSVSerializer.serialize(elements)
+    expect(serialized).to eq <<~CSV
+    a
+    "a,b"
+    CSV
+  end
+
   it 'does not serialize Element with different structures' do
     elements = [
       Rosetta::Element.new('a' => 1),

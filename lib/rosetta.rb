@@ -19,13 +19,13 @@ class Rosetta
     private
 
       def valid_input_from!(json)
-        raise ConversionError, <<-ERROR.chomp unless input = valid_json(json)
+        raise ConversionError, <<-ERROR.strip unless input = valid_json(json)
           JSON input is invalid
         ERROR
-        raise ConversionError, <<-ERROR.chomp unless input.is_a? Array
+        raise ConversionError, <<-ERROR.strip unless input.is_a? Array
           JSON input must be an array
         ERROR
-        raise ConversionError, <<-ERROR.chomp unless input.all? { |o| o.is_a? Hash }
+        raise ConversionError, <<-ERROR.strip unless input.all? { |o| o.is_a? Hash }
           JSON input must contain objects
         ERROR
 

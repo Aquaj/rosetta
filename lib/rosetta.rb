@@ -41,7 +41,7 @@ class Rosetta
         object.flat_map do |key, val|
           case val
           when Hash
-            headers(val).map{ |header| [key, header].join(?.) }
+            headers(val).map{ |header| [key, header].join('.') }
           else
             key
           end

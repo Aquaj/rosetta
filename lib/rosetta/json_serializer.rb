@@ -25,14 +25,7 @@ class Rosetta
           JSON input must contain objects
         ERROR
 
-        inputs = input.map { |e| Element.new(e) }
-
-        schema, *others = inputs.map(&:headers).uniq
-        raise ConversionError, <<-ERROR.strip unless others.none?
-          All objects in JSON array do not share the same structure
-        ERROR
-
-        [schema, input.map { |e| Element.new(e) }]
+        input.map { |e| Element.new(e) }
       end
 
       #HACK: Feels dirty but there's no JSON soft-parsing in ruby's json lib

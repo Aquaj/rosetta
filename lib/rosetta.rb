@@ -10,8 +10,8 @@ class Rosetta
 
   class << self
     def convert(json)
-      headers, elements = JSONSerializer.deserialize(json)
-      CSVSerializer.serialize(elements, headers)
+      elements = JSONSerializer.deserialize(json)
+      CSVSerializer.serialize(elements)
     end
   end
 end

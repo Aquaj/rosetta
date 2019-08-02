@@ -20,7 +20,7 @@ class Rosetta
     end
 
     def headers
-      heads, *others = elements.map(&:headers).uniq
+      heads, *others = elements.map(&:properties).uniq
 
       raise ConversionError, <<-ERROR.strip unless others.none?
         All objects need to share their structure to be serialized to CSV.

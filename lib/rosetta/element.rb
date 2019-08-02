@@ -6,8 +6,8 @@ class Rosetta
       @object = object
     end
 
-    def headers
-      headers_of(object)
+    def properties
+      properties_of(object)
     end
 
     # Similar to #dig method
@@ -17,11 +17,11 @@ class Rosetta
 
     private
 
-      def headers_of(obj)
+      def properties_of(obj)
         obj.flat_map do |key, val|
           case val
           when Hash
-            headers_of(val).map{ |header| [key, header].join('.') }
+            properties_of(val).map{ |header| [key, header].join('.') }
           else
             key
           end

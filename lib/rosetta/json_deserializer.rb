@@ -5,8 +5,7 @@ require 'rosetta/exceptions'
 require 'rosetta/deserializers'
 
 class Rosetta
-  class JSONDeserializer
-    Deserializers.register :json, self
+  class JSONDeserializer < Deserializers::Base
 
     def self.deserialize(input)
       new(input).deserialize

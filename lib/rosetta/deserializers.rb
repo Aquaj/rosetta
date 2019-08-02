@@ -14,5 +14,16 @@ class Rosetta
       ERROR
       @registered[name] = deserializer
     end
+
+    class Base
+      def self.inherited(new_serializer)
+        key = new_serializer.name.match(/^(.*?)(Deserializer)?$/)[1]
+        key = key.split("::").last
+        #NOTE: Similar to Rails's #underscore
+        #TODO: Extract in refinement?
+        key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
+        Deserializers.register(key, new_serializer)
+      end
+    end
   end
 end

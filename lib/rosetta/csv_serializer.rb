@@ -4,8 +4,7 @@ require 'rosetta/exceptions'
 require 'rosetta/serializers'
 
 class Rosetta
-  class CSVSerializer
-    Serializers.register :csv, self
+  class CSVSerializer < Serializers::Base
 
     def self.serialize(elements)
       new(elements).serialize

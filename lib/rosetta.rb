@@ -1,7 +1,3 @@
-require 'json'
-require 'csv'
-
-require 'rosetta/element'
 require 'rosetta/json_deserializer'
 require 'rosetta/csv_serializer'
 

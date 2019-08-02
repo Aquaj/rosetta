@@ -1,3 +1,7 @@
+require 'csv'
+
+require 'rosetta/element'
+
 class Rosetta
   class CSVSerializer
     def self.serialize(elements)

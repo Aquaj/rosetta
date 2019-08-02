@@ -1,3 +1,7 @@
+require 'json'
+
+require 'rosetta/element'
+
 class Rosetta
   class JSONDeserializer
     def self.deserialize(input)

@@ -22,4 +22,20 @@ RSpec.describe Rosetta, '#convert' do
     JSON
     expect { Rosetta.convert(input) }.to raise_error(Rosetta::ConversionError)
   end
+
+  it 'handles JSON arrays of objects only' do
+    non_objects = <<-JSON
+      [
+        ["a", 1]
+      ]
+    JSON
+    expect { Rosetta.convert(non_objects) }.to raise_error(Rosetta::ConversionError)
+
+    non_array = <<-JSON
+    {
+      "object": { "a": 1 }
+    }
+    JSON
+    expect { Rosetta.convert(non_array) }.to raise_error(Rosetta::ConversionError)
+  end
 end

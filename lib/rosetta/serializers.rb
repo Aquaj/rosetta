@@ -16,6 +16,8 @@ class Rosetta
     end
 
     class Base
+      attr_reader :elements
+
       def self.inherited(new_serializer)
         key = new_serializer.name.match(/^(.*?)(Serializer)?$/)[1]
         key = key.split("::").last
@@ -23,6 +25,19 @@ class Rosetta
         #TODO: Extract in refinement?
         key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
         Serializers.register(key, new_serializer)
+      end
+
+      def self.serialize(elements)
+        new(elements).serialize
+      end
+
+      def initialize(elements)
+        @elements = elements.dup.freeze
+        validate_input!
+      end
+
+      def serialize
+        raise NotImplementedError
       end
     end
   end

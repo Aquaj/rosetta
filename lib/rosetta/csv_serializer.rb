@@ -5,18 +5,6 @@ require 'rosetta/serializers'
 
 class Rosetta
   class CSVSerializer < Serializers::Base
-
-    def self.serialize(elements)
-      new(elements).serialize
-    end
-
-    attr_reader :elements
-
-    def initialize(elements)
-      @elements = elements.dup.freeze
-      validate_input!
-    end
-
     def serialize
       CSV.generate do |csv|
         csv << headers

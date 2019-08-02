@@ -6,17 +6,6 @@ require 'rosetta/deserializers'
 
 class Rosetta
   class JSONDeserializer < Deserializers::Base
-
-    def self.deserialize(input)
-      new(input).deserialize
-    end
-
-    attr_reader :input
-
-    def initialize(input)
-      @input = input.dup.freeze
-    end
-
     def deserialize
       validate_input!
       input.map { |obj| Element.new(obj) }

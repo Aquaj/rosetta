@@ -2,7 +2,6 @@ require 'rosetta/json_deserializer'
 require 'rosetta/csv_serializer'
 
 class Rosetta
-  class ConversionError < ArgumentError; end
 
   class << self
     def convert(input)

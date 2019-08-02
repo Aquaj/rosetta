@@ -10,7 +10,7 @@ RSpec.describe Rosetta, '#convert' do
   it 'raises if passed invalid JSON as an input' do
     input = File.read(file_fixture('users.json'))
     input = input[0..-10] # Incomplete file
-    expect { Rosetta.convert(input) }.to raise_error(ArgumentError)
+    expect { Rosetta.convert(input) }.to raise_error(Rosetta::ConversionError)
   end
 
   it "raises if all objects in the JSON array don't share the same structure" do

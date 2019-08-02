@@ -1,6 +1,7 @@
 require 'csv'
 
 require 'rosetta/element'
+require 'rosetta/exceptions'
 
 class Rosetta
   class CSVSerializer
@@ -26,7 +27,7 @@ class Rosetta
     def headers
       heads, *others = elements.map(&:properties).uniq
 
-      raise ConversionError, <<-ERROR.strip unless others.none?
+      raise SerializationError, <<-ERROR.strip unless others.none?
         All objects need to share their structure to be serialized to CSV.
       ERROR
 

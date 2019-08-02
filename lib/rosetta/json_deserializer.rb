@@ -1,6 +1,7 @@
 require 'json'
 
 require 'rosetta/element'
+require 'rosetta/exceptions'
 
 class Rosetta
   class JSONDeserializer
@@ -22,13 +23,13 @@ class Rosetta
     private
 
       def validate_input!
-        raise ConversionError, <<-ERROR.strip unless parsed_input = valid_json(@input)
+        raise DeserializationError, <<-ERROR.strip unless parsed_input = valid_json(@input)
           JSON input is invalid
         ERROR
-        raise ConversionError, <<-ERROR.strip unless parsed_input.is_a? Array
+        raise DeserializationError, <<-ERROR.strip unless parsed_input.is_a? Array
           JSON input must be an array
         ERROR
-        raise ConversionError, <<-ERROR.strip unless parsed_input.all? { |o| o.is_a? Hash }
+        raise DeserializationError, <<-ERROR.strip unless parsed_input.all? { |o| o.is_a? Hash }
           JSON input must contain objects
         ERROR
 

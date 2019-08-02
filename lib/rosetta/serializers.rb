@@ -18,17 +18,20 @@ class Rosetta
     class Base
       attr_reader :elements
 
-      def self.inherited(new_serializer)
-        key = new_serializer.name.match(/^(.*?)(Serializer)?$/)[1]
-        key = key.split("::").last
-        #NOTE: Similar to Rails's #underscore
-        #TODO: Extract in refinement?
-        key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
-        Serializers.register(key, new_serializer)
-      end
+      class << self
+        def inherited(new_serializer)
+          key = new_serializer.name.match(/^(.*?)(Serializer)?$/)[1]
+          key = key.split("::").last
+          #NOTE: Similar to Rails's #underscore
+          #TODO: Extract in refinement?
+          key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
+          Serializers.register(key, new_serializer)
+        end
 
-      def self.serialize(elements)
-        new(elements).serialize
+        def call(elements)
+          new(elements).call
+        end
+        alias_method :serialize, :call
       end
 
       def initialize(elements)
@@ -36,9 +39,10 @@ class Rosetta
         validate_input!
       end
 
-      def serialize
+      def call
         raise NotImplementedError
       end
+      alias_method :serialize, :call
     end
   end
 end

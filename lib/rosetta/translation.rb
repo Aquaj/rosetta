@@ -10,8 +10,8 @@ class Rosetta
     end
 
     def call(input)
-      elements = deserializer.deserialize(input)
-      serializer.serialize(elements)
+      elements = deserializer.call(input)
+      serializer.call(elements)
     end
 
     private

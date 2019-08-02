@@ -6,7 +6,7 @@ require 'rosetta/deserializers'
 
 class Rosetta
   class JSONDeserializer < Deserializers::Base
-    def deserialize
+    def call
       validate_input!
       input.map { |obj| Element.new(obj) }
     end

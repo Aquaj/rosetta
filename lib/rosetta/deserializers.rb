@@ -18,26 +18,30 @@ class Rosetta
     class Base
       attr_reader :input
 
-      def self.inherited(new_serializer)
-        key = new_serializer.name.match(/^(.*?)(Deserializer)?$/)[1]
-        key = key.split("::").last
-        #NOTE: Similar to Rails's #underscore
-        #TODO: Extract in refinement?
-        key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
-        Deserializers.register(key, new_serializer)
-      end
+      class << self
+        def inherited(new_serializer)
+          key = new_serializer.name.match(/^(.*?)(Deserializer)?$/)[1]
+          key = key.split("::").last
+          #NOTE: Similar to Rails's #underscore
+          #TODO: Extract in refinement?
+          key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
+          Deserializers.register(key, new_serializer)
+        end
 
-      def self.deserialize(input)
-        new(input).deserialize
+        def call(input)
+          new(input).call
+        end
+        alias_method :deserialize, :call
       end
 
       def initialize(input)
         @input = input.dup.freeze
       end
 
-      def deserialize
+      def call
         raise NotImplementedError
       end
+      alias_method :deserialize, :call
     end
   end
 end

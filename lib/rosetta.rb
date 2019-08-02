@@ -9,13 +9,13 @@ class Rosetta
 
   class << self
     def convert(json)
-      headers, objects = JSONSerializer.deserialize(json)
+      headers, elements = JSONSerializer.deserialize(json)
 
       CSV.generate do |csv|
         csv << headers
-        objects.each do |object|
+        elements.each do |element|
           csv << headers.map do |header|
-            value = object[header]
+            value = element[header]
             case value
             when Array
               value.join(',')

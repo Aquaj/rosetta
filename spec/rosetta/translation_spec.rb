@@ -11,4 +11,12 @@ RSpec.describe Rosetta::Translation do
     translation = Rosetta::Translation.new(Rosetta::CSVSerializer, Rosetta::JSONDeserializer)
     expect(translation.call(input)).to eq(output)
   end
+
+  it 'can guess which serializer/deserializer to use from format' do
+    input = File.read(file_fixture('users.json'))
+    output = File.read(file_fixture('users.csv'))
+
+    translation = Rosetta::Translation.new(:csv, :json)
+    expect(translation.call(input)).to eq(output)
+  end
 end

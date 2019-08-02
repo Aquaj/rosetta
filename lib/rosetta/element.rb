@@ -10,9 +10,8 @@ class Rosetta
       properties_of(object)
     end
 
-    # Similar to #dig method
     def [](key)
-      key.split(".").reduce(object) { |hash, step| hash[step] if hash }
+      object.dig(*key.split("."))
     end
 
     private

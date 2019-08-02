@@ -4,28 +4,31 @@ class Rosetta
       new(input).deserialize
     end
 
+    attr_reader :input
+
     def initialize(input)
-      @input = input
+      @input = input.dup.freeze
     end
 
     def deserialize
       validate_input!
+      input.map { |obj| Element.new(obj) }
     end
 
     private
 
       def validate_input!
-        raise ConversionError, <<-ERROR.strip unless input = valid_json(@input)
+        raise ConversionError, <<-ERROR.strip unless parsed_input = valid_json(@input)
           JSON input is invalid
         ERROR
-        raise ConversionError, <<-ERROR.strip unless input.is_a? Array
+        raise ConversionError, <<-ERROR.strip unless parsed_input.is_a? Array
           JSON input must be an array
         ERROR
-        raise ConversionError, <<-ERROR.strip unless input.all? { |o| o.is_a? Hash }
+        raise ConversionError, <<-ERROR.strip unless parsed_input.all? { |o| o.is_a? Hash }
           JSON input must contain objects
         ERROR
 
-        input.map { |e| Element.new(e) }
+        @input = parsed_input.freeze
       end
 
       #HACK: Feels dirty but there's no JSON soft-parsing in ruby's json lib

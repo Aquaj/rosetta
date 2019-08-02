@@ -6,13 +6,8 @@ class Rosetta
 
   class << self
     def convert(json)
-      input = valid_input_from!(json)
-      headers = -> (hash) { hash.flat_map { |key, val| val.is_a?(Hash) ? headers.(val).map{|head| [key, head].join(?.) } : key } }
+      head, input = valid_input_from!(json)
       content = -> (hash, key) { key.split(".").reduce(hash) { |c, k| c[k] } }
-      head, *others = input.map(&headers).uniq
-      if others.any?
-        raise ConversionError, "All objects in JSON array do not share the same structure"
-      end
       CSV.generate do |csv|
         csv << head
         input.each do |obj|
@@ -33,7 +28,24 @@ class Rosetta
         raise ConversionError, <<-ERROR.chomp unless input.all? { |o| o.is_a? Hash }
           JSON input must contain objects
         ERROR
-        input
+
+        schema, *others = input.map { |obj| headers(obj) }.uniq
+        raise ConversionError, <<-ERROR.strip unless others.none?
+          All objects in JSON array do not share the same structure
+        ERROR
+
+        [schema, input]
+      end
+
+      def headers(object)
+        object.flat_map do |key, val|
+          case val
+          when Hash
+            headers(val).map{ |header| [key, header].join(?.) }
+          else
+            key
+          end
+        end
       end
 
       #HACK: Feels dirty but there's no JSON soft-parsing in ruby's json lib

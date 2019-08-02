@@ -8,6 +8,7 @@ RSpec.describe Rosetta::JSONDeserializer do
         { "a": 2 }
       ]
     JSON
+    expect(deserialized.length).to be 2
     expect(deserialized).to satisfy { |result| result.all? { |e| e.is_a? Rosetta::Element } }
   end
 end

@@ -1,6 +1,5 @@
 require 'json'
 require 'csv'
-require 'byebug'
 
 class Rosetta
   class ConversionError < ArgumentError; end
@@ -8,7 +7,6 @@ class Rosetta
   class << self
     def convert(json)
       raise ConversionError, "JSON input is invalid" unless j = valid_json(json)
-      j = JSON(json)
       raise ConversionError, "JSON input must be an array" unless j.is_a? Array
       raise ConversionError, "JSON input must contain objects" unless j.all? { |o| o.is_a? Hash }
       headers = -> (hash) { hash.flat_map { |key, val| val.is_a?(Hash) ? headers.(val).map{|head| [key, head].join(?.) } : key } }

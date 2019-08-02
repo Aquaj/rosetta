@@ -1,3 +1,4 @@
+require 'rosetta/element'
 require 'rosetta/json_deserializer'
 
 RSpec.describe Rosetta::JSONDeserializer do

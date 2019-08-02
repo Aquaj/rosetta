@@ -3,11 +3,11 @@ require 'csv'
 require 'byebug'
 
 class Rosetta
-  class ConversionError < StandardError; end
+  class ConversionError < ArgumentError; end
 
   class << self
     def convert(json)
-      raise ArgumentError, "JSON input is invalid" unless j = valid_json(json)
+      raise ConversionError, "JSON input is invalid" unless j = valid_json(json)
       j = JSON(json)
       headers = -> (hash) { hash.flat_map { |key, val| val.is_a?(Hash) ? headers.(val).map{|head| [key, head].join(?.) } : key } }
       content = -> (hash, key) { key.split(".").reduce(hash) { |c, k| c[k] } }

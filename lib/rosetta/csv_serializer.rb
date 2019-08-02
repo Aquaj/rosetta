@@ -1,6 +1,5 @@
 require 'csv'
 
-require 'rosetta/element'
 require 'rosetta/exceptions'
 
 class Rosetta

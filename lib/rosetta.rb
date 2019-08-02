@@ -9,8 +9,8 @@ class Rosetta
   class ConversionError < ArgumentError; end
 
   class << self
-    def convert(json)
-      elements = JSONDeserializer.deserialize(json)
+    def convert(input)
+      elements = JSONDeserializer.deserialize(input)
       CSVSerializer.serialize(elements)
     end
   end

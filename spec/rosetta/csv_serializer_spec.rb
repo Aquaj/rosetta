@@ -15,4 +15,14 @@ RSpec.describe Rosetta::CSVSerializer do
     2
     CSV
   end
+
+  it 'does not serialize Element with different structures' do
+    elements = [
+      Rosetta::Element.new('a' => 1),
+      Rosetta::Element.new('b' => 2)
+    ]
+
+    expect { Rosetta::CSVSerializer.serialize(elements) }.to(
+      raise_error(Rosetta::ConversionError))
+  end
 end

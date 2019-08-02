@@ -6,14 +6,4 @@ RSpec.describe Rosetta, '#convert' do
     output = File.read(file_fixture('users.csv'))
     expect(Rosetta.convert(input)).to eq(output)
   end
-
-  it "raises if all objects in the JSON array don't share the same structure" do
-    input = <<-JSON
-      [
-        { "a": 1 },
-        { "b": 1 }
-      ]
-    JSON
-    expect { Rosetta.convert(input) }.to raise_error(Rosetta::ConversionError)
-  end
 end

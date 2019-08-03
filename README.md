@@ -1,4 +1,5 @@
 # Rosetta
+[![Build Status](https://travis-ci.com/Aquaj/rosetta.svg?branch=master)](https://travis-ci.com/Aquaj/rosetta)
 
 A lightweight format-to-format translator.
 

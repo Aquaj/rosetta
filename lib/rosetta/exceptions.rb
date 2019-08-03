@@ -4,6 +4,7 @@ class Rosetta
   class DeserializationError < ConversionError; end
 
   class RegistrationError < StandardError; end
+  class ExistingTranslatorError < RegistrationError; end
   class ExistingSerializerError < RegistrationError; end
   class ExistingDeserializerError < RegistrationError; end
 

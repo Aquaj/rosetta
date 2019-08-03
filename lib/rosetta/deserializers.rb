@@ -1,24 +1,10 @@
 require 'rosetta/exceptions'
+require 'rosetta/support/registerable'
 
 module Rosetta
   module Deserializers
-    @registered = {}
+    extend Support::Registerable
 
-    class << self
-      attr_reader :registered
-
-      def [](key)
-        registered[key]
-      end
-
-      def register(name, deserializer, &block)
-        raise ExistingDeserializerError, <<-ERROR.strip if @registered.key? name
-          Deserializer #{name} is already registered.
-        ERROR
-
-        raise ArgumentError, "Can't take both deserializer object and block." if deserializer && block
-        @registered[name] = deserializer
-      end
-    end
+    registerable_as :deserializer
   end
 end

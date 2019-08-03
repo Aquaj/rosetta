@@ -32,6 +32,10 @@ class Rosetta
           new(input).call
         end
         alias_method :deserialize, :call
+
+        def to_proc
+          proc { |*args, &block| self.call(*args, &block) }
+        end
       end
 
       def initialize(input)
@@ -42,6 +46,10 @@ class Rosetta
         raise NotImplementedError
       end
       alias_method :deserialize, :call
+
+      def to_proc
+        proc { |*args, &block| self.call(*args, &block) }
+      end
     end
   end
 end

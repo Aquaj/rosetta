@@ -64,7 +64,7 @@ Rosetta::Translation.new(deserializer, serializer).call("olleh") # => HELLO
 When given `Symbol`s instead, they will try to lookup the registered serializers
 and deserializers to find a match to use with the input.
 By default, the only ones supplied with the gem are a JSON deserializer and a
-CSV serializer.
+CSV serializer. (`Rosetta::Deserializers::JSON` and `Rosetta::Serializers::CSV`).
 See *Registering a Serializer / Deserializer* for more info on how to add your own.
 
 You can also register `Translator`s, which are pipes connecting to specific
@@ -76,7 +76,7 @@ See *Registering a Translator* for more info on how to use them.
 You can register a new serializer or deserializer by calling the `register`
 methods of respectively `Rosetta::Serializers` or `Rosetta::Deserializers`.
 The method takes the Symbol that's going to be used as shorthand for it as first
-parameter and the callable object you want to use as second.
+parameter and either a callable object or a block for the serializer/deserializer.
 
 Example:
 ```ruby
@@ -87,6 +87,11 @@ Rosetta::Deserializers.register(:mirror, deserializer)
 Rosetta::Serializers.register(:BIG, serializer)
 
 Rosetta.translate(from: :mirror, to: :big, "em ti si") # => "IS IT ME"
+
+# Alternative
+
+Rosetta::Deserializers.register(:BIG)    { |input| input.upcase  }
+Rosetta::Deserializers.register(:mirror) { |input| input.reverse }
 ```
 
 Whatever the Deserializer returns will be fed to the Serializer when

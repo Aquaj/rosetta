@@ -47,16 +47,6 @@ RSpec.describe Rosetta::Translation do
     OUTPUT
   end
 
-  it 'can use a pre-registered callable object to do a specific format-to-format translation' do
-     translator = lambda do |input|
-      input.upcase
-    end
-     Rosetta::Translation.register(:down, :up, translator)
-
-    expect(Rosetta::Translation.new(:down, :up).call("hello")).to eq("HELLO")
-  end
-
-
   it 'can use a pre-registered block to do a specific format-to-format translation' do
     Rosetta::Translation.register(:down, :up) do |input|
       input.upcase

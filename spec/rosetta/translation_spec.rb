@@ -8,7 +8,7 @@ RSpec.describe Rosetta::Translation do
     input = File.read(file_fixture('users.json'))
     output = File.read(file_fixture('users.csv'))
 
-    translation = Rosetta::Translation.new(Rosetta::CSVSerializer, Rosetta::JSONDeserializer)
+    translation = Rosetta::Translation.new(Rosetta::JSONDeserializer, Rosetta::CSVSerializer)
     expect(translation.call(input)).to eq(output)
   end
 
@@ -16,7 +16,7 @@ RSpec.describe Rosetta::Translation do
     input = File.read(file_fixture('users.json'))
     output = File.read(file_fixture('users.csv'))
 
-    translation = Rosetta::Translation.new(:csv, :json)
+    translation = Rosetta::Translation.new(:json, :csv)
     expect(translation.call(input)).to eq(output)
   end
 
@@ -36,7 +36,7 @@ RSpec.describe Rosetta::Translation do
       end.join("\n")
     end
 
-    translation = Rosetta::Translation.new(proc_serializer, lambda_deserializer)
+    translation = Rosetta::Translation.new(lambda_deserializer, proc_serializer)
     expect(translation.call(<<~INPUT.chomp)).to eq(<<~OUTPUT.chomp)
     a,b;c,d;
     1,2;3,4;

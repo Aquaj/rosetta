@@ -20,8 +20,8 @@ class Rosetta
       @registered[key]
     end
 
-    def initialize(serializer, deserializer)
-      @translator = Translation[serializer => deserializer]
+    def initialize(deserializer, serializer)
+      @translator = Translation[deserializer => serializer]
       unless @translator
         @serializer = find_serializer(serializer)
         @deserializer = find_deserializer(deserializer)
@@ -35,6 +35,10 @@ class Rosetta
         elements = deserializer.call(input)
         serializer.call(elements)
       end
+    end
+
+    def to_proc
+      proc { |*args, &block| self.call(*args, &block) }
     end
 
     private

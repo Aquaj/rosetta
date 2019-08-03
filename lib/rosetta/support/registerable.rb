@@ -23,7 +23,7 @@ module Rosetta
           camel_nature = nature_words.join
           human_nature = nature_words.join(' ')
 
-          error_name = "Existing#{camel_nature}Error"
+          error_name = :"Existing#{camel_nature}Error"
           error_class = if constants.include?(error_name)
                           const_get(error_name)
                         else

@@ -1,4 +1,4 @@
-class Rosetta
+module Rosetta
   class Element
     attr_reader :object
 

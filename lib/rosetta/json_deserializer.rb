@@ -4,7 +4,7 @@ require 'rosetta/element'
 require 'rosetta/exceptions'
 require 'rosetta/deserializers'
 
-class Rosetta
+module Rosetta
   class JSONDeserializer < Deserializers::Base
     def call
       validate_input!

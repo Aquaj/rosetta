@@ -3,7 +3,7 @@ require 'csv'
 require 'rosetta/exceptions'
 require 'rosetta/serializers'
 
-class Rosetta
+module Rosetta
   class CSVSerializer < Serializers::Base
     def call
       CSV.generate do |csv|

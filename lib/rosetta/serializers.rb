@@ -1,6 +1,6 @@
 require 'rosetta/exceptions'
 
-class Rosetta
+module Rosetta
   class Serializers
     @registered = {}
 

@@ -36,7 +36,7 @@ module Rosetta
          if object && block
            raise ArgumentError, "Can't take both #{human_nature.downcase} object and block."
          end
-          @registered[name] = object
+          @registered[name] = object || block
         end
       end
     end

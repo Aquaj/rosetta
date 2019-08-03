@@ -1,8 +1,6 @@
-ruby '>= 2.6.1', '< 3.0.0'
+source "https://rubygems.org"
 
-gem 'rspec'
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# Not bundled by default since Ruby 2.6
-gem 'irb', require: false
-
-gem 'byebug'
+# Specify your gem's dependencies in rosetta.gemspec
+gemspec

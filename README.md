@@ -142,7 +142,8 @@ Example:
 # are equivalent.
 
 Rosetta::Translation.new(:down, :up).call("you're looking for")
-  # => "YOU'RE LOOKING FOR3
+  # => "YOU'RE LOOKING FOR"
+```
 
 ## Development
 

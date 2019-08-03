@@ -1,9 +1,9 @@
 require 'rosetta/element'
-require 'rosetta/json_deserializer'
+require 'rosetta/deserializers/json_deserializer'
 
-RSpec.describe Rosetta::JSONDeserializer do
+RSpec.describe Rosetta::Deserializers::JSONDeserializer do
   it 'takes in JSON and returns elements' do
-    deserialized = Rosetta::JSONDeserializer.deserialize(<<-JSON)
+    deserialized = Rosetta::Deserializers::JSONDeserializer.deserialize(<<-JSON)
       [
         { "a": 1 },
         { "a": 2 }
@@ -16,7 +16,7 @@ RSpec.describe Rosetta::JSONDeserializer do
   it 'raises if passed invalid JSON as an input' do
     input = File.read(file_fixture('users.json'))
     input = input[0..-10] # Incomplete file
-    expect { Rosetta::JSONDeserializer.deserialize(input) }.to(
+    expect { Rosetta::Deserializers::JSONDeserializer.deserialize(input) }.to(
       raise_error(Rosetta::DeserializationError))
   end
 
@@ -26,7 +26,7 @@ RSpec.describe Rosetta::JSONDeserializer do
         ["a", 1]
       ]
     JSON
-    expect { Rosetta::JSONDeserializer.deserialize(non_objects) }.to(
+    expect { Rosetta::Deserializers::JSONDeserializer.deserialize(non_objects) }.to(
       raise_error(Rosetta::DeserializationError))
 
     non_array = <<-JSON
@@ -34,7 +34,7 @@ RSpec.describe Rosetta::JSONDeserializer do
       "object": { "a": 1 }
     }
     JSON
-    expect { Rosetta::JSONDeserializer.deserialize(non_array) }.to(
+    expect { Rosetta::Deserializers::JSONDeserializer.deserialize(non_array) }.to(
       raise_error(Rosetta::DeserializationError))
   end
 end

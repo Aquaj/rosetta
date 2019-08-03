@@ -1,14 +1,14 @@
 require 'rosetta/element'
-require 'rosetta/csv_serializer'
+require 'rosetta/serializers/csv_serializer'
 
-RSpec.describe Rosetta::CSVSerializer do
+RSpec.describe Rosetta::Serializers::CSVSerializer do
   it 'takes in Elements and returns csv' do
     elements = [
       Rosetta::Element.new('a' => 1),
       Rosetta::Element.new('a' => 2)
     ]
 
-    serialized = Rosetta::CSVSerializer.serialize(elements)
+    serialized = Rosetta::Serializers::CSVSerializer.serialize(elements)
     expect(serialized).to eq <<~CSV
     a
     1
@@ -21,7 +21,7 @@ RSpec.describe Rosetta::CSVSerializer do
       Rosetta::Element.new('a' => { 'b' => 'c' }),
     ]
 
-    serialized = Rosetta::CSVSerializer.serialize(elements)
+    serialized = Rosetta::Serializers::CSVSerializer.serialize(elements)
     expect(serialized).to eq <<~CSV
     a.b
     c
@@ -33,7 +33,7 @@ RSpec.describe Rosetta::CSVSerializer do
       Rosetta::Element.new('a' => [:a, :b]),
     ]
 
-    serialized = Rosetta::CSVSerializer.serialize(elements)
+    serialized = Rosetta::Serializers::CSVSerializer.serialize(elements)
     expect(serialized).to eq <<~CSV
     a
     "a,b"
@@ -46,7 +46,7 @@ RSpec.describe Rosetta::CSVSerializer do
       Rosetta::Element.new('b' => 2)
     ]
 
-    expect { Rosetta::CSVSerializer.serialize(elements) }.to(
+    expect { Rosetta::Serializers::CSVSerializer.serialize(elements) }.to(
       raise_error(Rosetta::ConversionError))
   end
 end

@@ -1,14 +1,15 @@
 require 'rosetta/translation'
 
-require 'rosetta/csv_serializer'
-require 'rosetta/json_deserializer'
+require 'rosetta/serializers/csv_serializer'
+require 'rosetta/deserializers/json_deserializer'
 
 RSpec.describe Rosetta::Translation do
   it 'can convert from one format to another using a given serializer and deserializer' do
     input = File.read(file_fixture('users.json'))
     output = File.read(file_fixture('users.csv'))
 
-    translation = Rosetta::Translation.new(Rosetta::JSONDeserializer, Rosetta::CSVSerializer)
+    translation = Rosetta::Translation.new(Rosetta::Deserializers::JSONDeserializer,
+                                           Rosetta::Serializers::CSVSerializer)
     expect(translation.call(input)).to eq(output)
   end
 

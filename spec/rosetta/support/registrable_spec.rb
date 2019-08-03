@@ -45,6 +45,28 @@ RSpec.describe Rosetta::Support::Registerable do
     expect(TestClass[:toto]).to eq(to_be_registered)
   end
 
+  it 'can register blocks' do
+    TestClass.registerable_as :test
+
+    to_be_registered = proc do
+      "No op."
+    end
+    TestClass.register :toto, &to_be_registered
+
+    expect(TestClass.registered[:toto]).to eq(to_be_registered)
+  end
+
+  it 'raises when you try to register both object and block' do
+    TestClass.registerable_as :test
+
+    registered_block = proc do
+      "No op."
+    end
+    registered_obj = Object.new
+    expect { TestClass.register :toto, registered_obj, &registered_block }.to(
+      raise_error(ArgumentError))
+  end
+
   after(:each) do
     Object.send(:remove_const, :TestClass)
   end

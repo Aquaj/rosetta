@@ -1,5 +1,5 @@
 # Rosetta
-[![Build Status](https://travis-ci.com/Aquaj/rosetta.svg?branch=master)](https://travis-ci.com/Aquaj/rosetta)
+[![Build Status](https://travis-ci.com/Aquaj/rosetta.svg?branch=master)](https://travis-ci.com/Aquaj/rosetta)  [![Gem Version](https://badge.fury.io/rb/rosetta-stone.svg)](https://badge.fury.io/rb/rosetta-stone)
 
 A lightweight format-to-format translator.
 

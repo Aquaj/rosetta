@@ -3,21 +3,24 @@ require 'rosetta/exceptions'
 module Rosetta
   class Translation
     @registered = {}
-
     attr_reader :serializer, :deserializer, :translator
     alias_method :translator?, :translator
 
-    def self.register(source, destination, callable = nil, &block)
-      raise ExistingTranslatorError, <<-ERROR.strip if @registered.key? name
-        There already is a translator from #{source} to #{destination}.
-      ERROR
+    class << self
+      attr_reader :registered
 
-      raise ArgumentError, "Can't take both callabel object and block." if callable && block
-      @registered[source => destination] = callable || block
-    end
+      def [](key)
+        @registered[key]
+      end
 
-    def self.[](key)
-      @registered[key]
+      def register(source, destination, callable = nil, &block)
+        raise ExistingTranslatorError, <<-ERROR.strip if @registered.key? name
+          There already is a translator from #{source} to #{destination}.
+        ERROR
+
+        raise ArgumentError, "Can't take both callable object and block." if callable && block
+        @registered[source => destination] = callable || block
+      end
     end
 
     def initialize(deserializer, serializer)

@@ -4,15 +4,21 @@ module Rosetta
   module Deserializers
     @registered = {}
 
-    def self.[](key)
-      @registered[key]
-    end
+    class << self
+      attr_reader :registered
 
-    def self.register(name, deserializer)
-      raise ExistingDeserializerError, <<-ERROR.strip if @registered.key? name
-        Deserializer #{name} is already registered.
-      ERROR
-      @registered[name] = deserializer
+      def [](key)
+        registered[key]
+      end
+
+      def register(name, deserializer, &block)
+        raise ExistingDeserializerError, <<-ERROR.strip if @registered.key? name
+          Deserializer #{name} is already registered.
+        ERROR
+
+        raise ArgumentError, "Can't take both deserializer object and block." if deserializer && block
+        @registered[name] = deserializer
+      end
     end
   end
 end

@@ -11,10 +11,12 @@ module Rosetta
         @registered[key]
       end
 
-      def register(name, serializer)
+      def register(name, serializer, &block)
         raise ExistingSerializerError, <<-ERROR.strip if @registered.key? name
           Serializer #{name} is already registered.
         ERROR
+
+        raise ArgumentError, "Can't take both serializer object and block." if serializer && block
         @registered[name] = serializer
       end
     end

@@ -5,9 +5,9 @@ require 'rosetta/serializers/base'
 
 module Rosetta
   module Serializers
-    class CSVSerializer < Base
+    class CSV < Base
       def call
-        CSV.generate do |csv|
+        ::CSV.generate do |csv|
           csv << headers
           elements.each do |element|
             csv << headers.map { |header| serialize_value(element[header]) }

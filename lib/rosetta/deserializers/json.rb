@@ -6,7 +6,7 @@ require 'rosetta/deserializers/base'
 
 module Rosetta
   module Deserializers
-    class JSONDeserializer < Base
+    class JSON < Base
       def call
         validate_input!
         input.map { |obj| Element.new(obj) }
@@ -32,7 +32,7 @@ module Rosetta
         def valid_json(json)
           JSON(json)
         #NOTE: Rescuing TypeError too in case json is not a String
-        rescue JSON::ParserError, TypeError
+        rescue ::JSON::ParserError, TypeError
           nil
         end
     end

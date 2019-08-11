@@ -34,4 +34,21 @@ RSpec.describe Rosetta::Support, 'String refinement' do
     expect(CamelizeTestDummy.new.responds?).to be_truthy
     expect(CamelizeTestDummy.new.test_with("hello_my_darling")).to eq("HelloMyDarling")
   end
+
+  it 'adds a #titleize method to handle case transformation' do
+    class TitleizeTestDummy
+      using Rosetta::Support
+
+      def responds?
+        "".respond_to? :titleize
+      end
+
+      def test_with(string)
+        string.titleize
+      end
+    end
+
+    expect(TitleizeTestDummy.new.responds?).to be_truthy
+    expect(TitleizeTestDummy.new.test_with("hello_my_ragtime_gal")).to eq("Hello My Ragtime Gal")
+  end
 end

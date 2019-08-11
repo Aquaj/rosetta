@@ -1,5 +1,6 @@
 require 'rosetta/serializers'
 require 'rosetta/exceptions'
+require 'rosetta/support'
 
 module Rosetta
   module Serializers
@@ -7,13 +8,12 @@ module Rosetta
       attr_reader :elements
 
       class << self
+        using Rosetta::Support
+
         def inherited(new_serializer)
           key = new_serializer.name.match(/^(.*?)(Serializer)?$/)[1]
           key = key.split("::").last
-          #NOTE: Similar to Rails's #underscore
-          #TODO: Extract in refinement?
-          key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
-          Serializers.register(key, new_serializer)
+          Serializers.register(key.underscore.to_sym, new_serializer)
         end
 
         def call(elements)

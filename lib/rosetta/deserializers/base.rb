@@ -1,19 +1,18 @@
 require 'rosetta/deserializers'
 require 'rosetta/exceptions'
+require 'rosetta/support'
 
 module Rosetta
   module Deserializers
     class Base
+      using Rosetta::Support
       attr_reader :input
 
       class << self
         def inherited(new_serializer)
           key = new_serializer.name.match(/^(.*?)(Deserializer)?$/)[1]
           key = key.split("::").last
-          #NOTE: Similar to Rails's #underscore
-          #TODO: Extract in refinement?
-          key = key.scan(/[A-Z]+[a-z]*/).join('_').downcase.to_sym
-          Deserializers.register(key, new_serializer)
+          Deserializers.register(key.underscore.to_sym, new_serializer)
         end
 
         def call(input)

@@ -1,5 +1,6 @@
 require 'rosetta/translation'
 
+require 'rosetta/exceptions'
 require 'rosetta/serializers/csv'
 require 'rosetta/deserializers/json'
 
@@ -53,5 +54,21 @@ RSpec.describe Rosetta::Translation do
     end
 
     expect(Rosetta::Translation.new(:down, :up).call("hello")).to eq("HELLO")
+  end
+
+  it 'wraps error in a TranslationError' do
+    root_error = StandardError.new("Hello")
+    Rosetta::Translation.register(:test, :error) do |input|
+      raise root_error
+    end
+
+    expect { Rosetta::Translation.new(:test, :error).call("hello") }.to(
+      raise_error(Rosetta::TranslationError))
+
+    begin
+      Rosetta::Translation.new(:test, :error).call("hello")
+    rescue => e
+      expect(e.cause).to be(root_error)
+    end
   end
 end

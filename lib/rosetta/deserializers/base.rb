@@ -17,6 +17,8 @@ module Rosetta
 
         def call(input)
           new(input).call
+        rescue StandardError
+          raise DeserializtionError
         end
         alias_method :deserialize, :call
 

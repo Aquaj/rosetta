@@ -32,6 +32,10 @@ module Rosetta
         elements = deserializer.call(input)
         serializer.call(elements)
       end
+    rescue ConversionError => e
+      raise e # No double-wrapping conversion errors
+    rescue StandardError
+      raise TranslationError
     end
 
     def to_proc

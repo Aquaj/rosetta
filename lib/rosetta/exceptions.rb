@@ -1,5 +1,6 @@
 module Rosetta
   class ConversionError < StandardError; end
+  class TranslationError < ConversionError; end
   class SerializationError < ConversionError; end
   class DeserializationError < ConversionError; end
 

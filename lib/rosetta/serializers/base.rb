@@ -18,6 +18,8 @@ module Rosetta
 
         def call(elements)
           new(elements).call
+        rescue StandardError
+          raise SerializationError
         end
         alias_method :serialize, :call
 

@@ -26,7 +26,7 @@ Or install it yourself as:
 The easiest way to use the library is to `require 'rosetta'` first, and then
 where needed:
 ```ruby
-Rosetta.translate(my_input_text, from: <input_format>, to: <output_format>)`
+Rosetta.translate(my_input_text, from: <input_format>, to: <output_format>)
 ```
 Example:
 ```ruby

@@ -1,6 +1,7 @@
 *.swp
 .ruby-version
 .byebug_history
+Gemfile.lock
 
 pkg/
 tmp/
